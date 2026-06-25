@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Anaitullah Bhat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+/* ── TOKENS ── */
+:root {
+  --background:       hsl(201,100%,13%);
+  --foreground:       hsl(0,0%,100%);
+  --muted-foreground: hsl(240,4%,66%);
+  --primary:          hsl(0,0%,100%);
+  --primary-fg:       hsl(0,0%,4%);
+  --secondary:        hsl(0,0%,10%);
+  --border:           hsl(0,0%,18%);
+  --font-display:     'Instrument Serif', serif;
+  --font-body:        'Inter', sans-serif;
+}
+
+/* ── RESET ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:var(--font-body);
+  background:var(--background);
+  color:var(--foreground);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+}
+
+/* ── LIQUID GLASS ── */
+.lg{
+  background:rgba(255,255,255,0.01);
+  background-blend-mode:luminosity;
+  backdrop-filter:blur(4px);
+  -webkit-backdrop-filter:blur(4px);
+  border:none;
+  box-shadow:inset 0 1px 1px rgba(255,255,255,0.1);
+  position:relative;
+  overflow:hidden;
+  cursor:pointer;
+  transition:transform 0.22s ease,opacity 0.22s ease;
+}
+.lg:hover{transform:scale(1.03);}
+.lg::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  padding:1.4px;
+  background:linear-gradient(180deg,
+    rgba(255,255,255,0.45) 0%,
+    rgba(255,255,255,0.15) 20%,
+    rgba(255,255,255,0)    40%,
+    rgba(255,255,255,0)    60%,
+    rgba(255,255,255,0.15) 80%,
+    rgba(255,255,255,0.45) 100%);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;
+  mask-composite:exclude;
+  pointer-events:none;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fade-rise{
+  from{opacity:0;transform:translateY(24px);}
+  to{opacity:1;transform:translateY(0);}
+}
+.fr   {animation:fade-rise 0.8s ease-out both;}
+.fr-1 {animation:fade-rise 0.8s ease-out 0.15s both;}
+.fr-2 {animation:fade-rise 0.8s ease-out 0.30s both;}
+.fr-3 {animation:fade-rise 0.8s ease-out 0.45s both;}
+.fr-4 {animation:fade-rise 0.8s ease-out 0.60s both;}
+
+@keyframes overlay-in{
+  from{opacity:0;}
+  to{opacity:1;}
+}
+@keyframes panel-up{
+  from{opacity:0;transform:translateY(32px);}
+  to{opacity:1;transform:translateY(0);}
+}
+@keyframes essay-slide{
+  from{opacity:0;transform:translateX(100%);}
+  to{opacity:1;transform:translateX(0);}
+}
+
+/* ══════════════════════════════════════
+   HERO PAGE
+══════════════════════════════════════ */
+#page-hero{
+  position:relative;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+
+/* video bg */
+#bg-video{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  z-index:0;
+}
+.vid-tint{
+  position:absolute;
+  inset:0;
+  background:rgba(0,8,22,0.5);
+  z-index:1;
+}
+
+/* ─ NAV ─ */
+header{position:relative;z-index:10;width:100%;}
+.nav-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:1.5rem 2rem;
+  max-width:80rem;
+  margin:0 auto;
+  width:100%;
+}
+.logo{
+  font-family:var(--font-display);
+  font-size:1.45rem;
+  letter-spacing:-0.01em;
+  color:var(--foreground);
+  text-decoration:none;
+  line-height:1;
+  white-space:nowrap;
+}
+nav ul{
+  display:none;
+  align-items:center;
+  gap:2rem;
+  list-style:none;
+}
+nav ul a{
+  font-size:0.8125rem;
+  color:var(--muted-foreground);
+  text-decoration:none;
+  transition:color 0.18s;
+  font-weight:400;
+}
+nav ul a:hover,nav ul a.on{color:var(--foreground);}
+.nav-cta{
+  font-size:0.8125rem;
+  color:var(--foreground);
+  padding:0.55rem 1.4rem;
+  border-radius:9999px;
+  border:none;
+  font-family:var(--font-body);
+  font-weight:400;
+}
+
+/* ─ HERO CONTENT ─ */
+.hero{
+  position:relative;
+  z-index:10;
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:5rem 1.5rem 8rem;
+}
+.hero h1{
+  font-family:var(--font-display);
+  font-size:clamp(2.8rem,9vw,7.5rem);
+  line-height:0.95;
+  letter-spacing:-2.46px;
+  max-width:80rem;
+  font-weight:400;
+  color:var(--foreground);
+}
+.hero h1 em{
+  font-style:normal;
+  color:var(--muted-foreground);
+}
+.hero-sub{
+  color:var(--muted-foreground);
+  font-size:clamp(0.9rem,1.8vw,1.1rem);
+  max-width:38rem;
+  margin-top:2rem;
+  line-height:1.75;
+  font-weight:400;
+}
+.hero-actions{
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  margin-top:3rem;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+.btn-primary{
+  font-size:0.9375rem;
+  color:var(--foreground);
+  padding:1.1rem 3rem;
+  border-radius:9999px;
+  border:none;
+  font-family:var(--font-body);
+  font-weight:400;
+}
+.btn-ghost{
+  font-size:0.8125rem;
+  color:var(--muted-foreground);
+  background:none;
+  border:1px solid rgba(255,255,255,0.12);
+  padding:0.85rem 2rem;
+  border-radius:9999px;
+  font-family:var(--font-body);
+  cursor:pointer;
+  transition:color 0.18s,border-color 0.18s,transform 0.22s;
+}
+.btn-ghost:hover{color:var(--foreground);border-color:rgba(255,255,255,0.3);transform:scale(1.03);}
+
+/* scroll line */
+.scroll-line{
+  position:absolute;
+  bottom:2.5rem;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:10;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:0.5rem;
+  opacity:0.3;
+  pointer-events:none;
+}
+.scroll-line span{
+  font-size:0.6rem;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  color:var(--foreground);
+}
+@keyframes fall{0%{transform:scaleY(0);transform-origin:top;}100%{transform:scaleY(1);transform-origin:top;}}
+.scroll-line i{
+  width:1px;
+  height:40px;
+  background:linear-gradient(to bottom,rgba(255,255,255,0.6),transparent);
+  animation:fall 1.6s ease-in-out infinite alternate;
+  display:block;
+}
+
+/* ══════════════════════════════════════
+   ABOUT / ESSAYS STRIP (below hero)
+══════════════════════════════════════ */
+#page-about{
+  background:hsl(205,80%,9%);
+  padding:7rem 1.5rem;
+}
+.about-inner{
+  max-width:72rem;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:1fr;
+  gap:4rem;
+}
+.about-text{}
+.section-eyebrow{
+  font-size:0.625rem;
+  letter-spacing:0.3em;
+  text-transform:uppercase;
+  color:var(--muted-foreground);
+  margin-bottom:1.25rem;
+  font-weight:500;
+}
+.about-heading{
+  font-family:var(--font-display);
+  font-size:clamp(1.7rem,4vw,2.8rem);
+  font-weight:400;
+  color:var(--foreground);
+  line-height:1.15;
+  margin-bottom:1.5rem;
+}
+.about-heading em{font-style:italic;color:var(--muted-foreground);}
+.about-body{
+  color:var(--muted-foreground);
+  font-size:0.9375rem;
+  line-height:1.85;
+  max-width:34rem;
+}
+.about-body p+p{margin-top:1rem;}
+
+/* ── WRITING CARD ── */
+.writing-card{
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:16px;
+  padding:2.5rem;
+  background:rgba(255,255,255,0.025);
+  display:flex;
+  flex-direction:column;
+  gap:1.25rem;
+}
+.essay-chip{
+  display:inline-block;
+  font-size:0.625rem;
+  letter-spacing:0.25em;
+  text-transform:uppercase;
+  color:var(--muted-foreground);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:9999px;
+  padding:0.3rem 0.85rem;
+  width:fit-content;
+}
+.essay-card-title{
+  font-family:var(--font-display);
+  font-size:1.5rem;
+  font-weight:400;
+  color:var(--foreground);
+  line-height:1.2;
+}
+.essay-card-excerpt{
+  color:var(--muted-foreground);
+  font-size:0.875rem;
+  line-height:1.8;
+}
+.essay-read-btn{
+  align-self:flex-start;
+  font-size:0.8125rem;
+  color:var(--foreground);
+  padding:0.7rem 1.75rem;
+  border-radius:9999px;
+  border:none;
+  font-family:var(--font-body);
+  margin-top:0.5rem;
+}
+
+/* ══════════════════════════════════════
+   CONTACT OVERLAY
+══════════════════════════════════════ */
+#contact-overlay{
+  position:fixed;
+  inset:0;
+  z-index:1000;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,8,20,0.85);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  animation:overlay-in 0.35s ease both;
+  padding:1.5rem;
+}
+#contact-overlay.open{display:flex;}
+.contact-panel{
+  width:100%;
+  max-width:30rem;
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:20px;
+  background:rgba(255,255,255,0.03);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.08), 0 40px 80px rgba(0,0,0,0.6);
+  padding:2.5rem;
+  animation:panel-up 0.4s ease both;
+  position:relative;
+}
+.contact-close{
+  position:absolute;
+  top:1.25rem;
+  right:1.25rem;
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,0.1);
+  background:none;
+  color:var(--muted-foreground);
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1.1rem;
+  line-height:1;
+  transition:color 0.18s,border-color 0.18s;
+}
+.contact-close:hover{color:var(--foreground);border-color:rgba(255,255,255,0.25);}
+.contact-heading{
+  font-family:var(--font-display);
+  font-size:1.75rem;
+  font-weight:400;
+  color:var(--foreground);
+  margin-bottom:0.5rem;
+  line-height:1.2;
+}
+.contact-heading em{font-style:italic;color:var(--muted-foreground);}
+.contact-sub{
+  color:var(--muted-foreground);
+  font-size:0.8125rem;
+  line-height:1.7;
+  margin-bottom:2rem;
+}
+.contact-links-list{
+  display:flex;
+  flex-direction:column;
+  gap:0.55rem;
+}
+.contact-row{
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  padding:0.85rem 1rem;
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:10px;
+  background:rgba(255,255,255,0.02);
+  text-decoration:none;
+  transition:border-color 0.18s,background 0.18s;
+}
+.contact-row:hover{border-color:rgba(255,255,255,0.18);background:rgba(255,255,255,0.05);}
+.contact-icon{
+  width:34px;
+  height:34px;
+  border-radius:8px;
+  background:rgba(255,255,255,0.06);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  font-size:0.875rem;
+}
+.contact-row-text{flex:1;}
+.contact-row-label{
+  font-size:0.8125rem;
+  color:var(--foreground);
+  font-weight:500;
+  display:block;
+  line-height:1.3;
+}
+.contact-row-val{
+  font-size:0.7rem;
+  color:var(--muted-foreground);
+  display:block;
+  margin-top:1px;
+}
+.contact-arr{
+  color:rgba(255,255,255,0.2);
+  font-size:0.9rem;
+  transition:color 0.18s,transform 0.18s;
+}
+.contact-row:hover .contact-arr{color:rgba(255,255,255,0.5);transform:translateX(3px);}
+.contact-divider{
+  height:1px;
+  background:rgba(255,255,255,0.06);
+  margin:1.25rem 0;
+}
+
+/* ══════════════════════════════════════
+   ESSAY READER OVERLAY
+══════════════════════════════════════ */
+#essay-overlay{
+  position:fixed;
+  inset:0;
+  z-index:1000;
+  display:none;
+  background:#050e18;
+  overflow-y:auto;
+  animation:overlay-in 0.3s ease both;
+}
+#essay-overlay.open{display:block;}
+.essay-topbar{
+  position:sticky;
+  top:0;
+  z-index:10;
+  padding:1rem 2rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:rgba(5,14,24,0.92);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(255,255,255,0.05);
+}
+.essay-topbar-brand{
+  font-family:var(--font-display);
+  font-size:0.9375rem;
+  color:rgba(255,255,255,0.4);
+  letter-spacing:0.03em;
+}
+.essay-close{
+  background:none;
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:9999px;
+  color:var(--muted-foreground);
+  font-size:0.75rem;
+  font-family:var(--font-body);
+  padding:0.45rem 1.1rem;
+  cursor:pointer;
+  letter-spacing:0.05em;
+  transition:color 0.18s,border-color 0.18s;
+}
+.essay-close:hover{color:var(--foreground);border-color:rgba(255,255,255,0.25);}
+
+/* essay body */
+.essay-page{
+  max-width:40rem;
+  margin:0 auto;
+  padding:5rem 1.5rem 8rem;
+  animation:panel-up 0.5s ease both;
+}
+.essay-kicker{
+  font-size:0.6rem;
+  letter-spacing:0.3em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.3);
+  margin-bottom:2rem;
+  font-weight:500;
+}
+.essay-title-big{
+  font-family:var(--font-display);
+  font-size:clamp(2rem,6vw,3.25rem);
+  font-weight:400;
+  color:var(--foreground);
+  line-height:1.1;
+  margin-bottom:0.75rem;
+}
+.essay-subtitle{
+  font-family:var(--font-display);
+  font-style:italic;
+  font-size:1rem;
+  color:rgba(255,255,255,0.38);
+  margin-bottom:3rem;
+}
+.essay-rule{height:1px;background:rgba(255,255,255,0.06);margin-bottom:3rem;}
+.essay-epigraph{
+  font-family:var(--font-display);
+  font-style:italic;
+  font-size:1.1rem;
+  color:rgba(255,255,255,0.45);
+  text-align:center;
+  margin:0 0 3rem;
+  padding:1.5rem 2rem;
+  border-left:1.5px solid rgba(255,255,255,0.1);
+  border-right:1.5px solid rgba(255,255,255,0.1);
+  line-height:1.85;
+}
+.essay-prose{
+  font-family:var(--font-display);
+  font-size:1.075rem;
+  line-height:1.95;
+  color:rgba(255,255,255,0.68);
+}
+.essay-prose p{margin-bottom:1.75rem;text-align:justify;hyphens:auto;}
+.essay-prose em{color:rgba(255,255,255,0.42);font-style:italic;}
+.essay-prose .dc::first-letter{
+  float:left;
+  font-family:var(--font-display);
+  font-size:4.2rem;
+  line-height:3.4rem;
+  padding-right:0.08em;
+  padding-top:0.05em;
+  color:rgba(255,255,255,0.2);
+}
+.essay-section-head{
+  font-family:var(--font-body);
+  font-size:0.6rem;
+  letter-spacing:0.3em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.25);
+  text-align:center;
+  margin:2.5rem 0 1.75rem;
+}
+.essay-dots{
+  text-align:center;
+  color:rgba(255,255,255,0.18);
+  font-size:0.7rem;
+  letter-spacing:0.6em;
+  margin:2rem 0;
+}
+.essay-blockquote{
+  border-left:1.5px solid rgba(255,255,255,0.1);
+  padding:1.25rem 1.5rem;
+  margin:2rem 0;
+  font-style:italic;
+  color:rgba(255,255,255,0.42);
+  font-family:var(--font-display);
+  font-size:1rem;
+  line-height:1.85;
+  background:rgba(255,255,255,0.02);
+}
+.essay-final{
+  font-family:var(--font-display);
+  font-style:italic;
+  text-align:center;
+  color:rgba(255,255,255,0.35);
+  font-size:1.05rem;
+  line-height:2.1;
+  margin-top:4rem;
+  padding-top:3rem;
+  border-top:1px solid rgba(255,255,255,0.05);
+}
+
+/* ══════════════════════════════════════
+   FOOTER
+══════════════════════════════════════ */
+footer{
+  background:hsl(208,90%,7%);
+  padding:3.5rem 1.5rem;
+  border-top:1px solid rgba(255,255,255,0.04);
+}
+.footer-inner{
+  max-width:80rem;
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:1.5rem;
+  text-align:center;
+}
+.footer-name{
+  font-family:var(--font-display);
+  font-size:0.9375rem;
+  color:rgba(255,255,255,0.35);
+}
+.footer-status{
+  font-size:0.6rem;
+  letter-spacing:0.25em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.18);
+  margin-top:0.25rem;
+}
+.footer-links{display:flex;flex-wrap:wrap;justify-content:center;gap:0.6rem;}
+.footer-link{
+  font-size:0.75rem;
+  color:rgba(255,255,255,0.3);
+  text-decoration:none;
+  padding:0.4rem 1rem;
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:9999px;
+  transition:color 0.18s,border-color 0.18s;
+}
+.footer-link:hover{color:rgba(255,255,255,0.7);border-color:rgba(255,255,255,0.2);}
+.footer-copy{
+  font-size:0.6rem;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.1);
+}
+
+/* ── RESPONSIVE ── */
+@media(min-width:640px){
+  .about-inner{grid-template-columns:1fr 1fr;align-items:start;}
+}
+@media(min-width:768px){
+  nav ul{display:flex;}
+}
+@media(min-width:1024px){
+  .nav-inner{padding:1.5rem 3rem;}
+  .essay-page{padding:6rem 1.5rem 9rem;}
+}
+
+/* body scroll lock when overlay open */
+body.locked{overflow:hidden;}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════
+     HERO
+══════════════════════════════════ -->
+<section id="page-hero">
+  <video id="bg-video" autoplay loop muted playsinline>
+    <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260314_131748_f2ca2a28-fed7-44c8-b9a9-bd9acdd5ec31.mp4" type="video/mp4"/>
+  </video>
+  <div class="vid-tint"></div>
+
+  <!-- NAV -->
+  <header>
+    <div class="nav-inner">
+      <a href="#" class="logo">Anaitullah Bhat</a>
+      <nav>
+        <ul>
+          <li><a href="#page-hero" class="on">Home</a></li>
+          <li><a href="#page-about">Writing</a></li>
+          <li><a href="#page-about">About</a></li>
+          <li><a href="#page-about">Journal</a></li>
+          <li><a href="#" onclick="openContact();return false;">Reach&nbsp;Me</a></li>
+        </ul>
+      </nav>
+      <button class="lg nav-cta" onclick="openContact()">Contact Me</button>
+    </div>
+  </header>
+
+  <!-- HERO TEXT -->
+  <div class="hero">
+    <h1 class="fr">
+      Curious about <em>most things.</em><br/>Certain about <em>very few.</em>
+    </h1>
+    <p class="hero-sub fr-1">
+      From Kashmir. I build for the web, write when I have something worth saying,
+      and spend the time in between thinking carefully about ideas that don't
+      resolve easily.
+    </p>
+    <div class="hero-actions fr-2">
+      <button class="lg btn-primary" onclick="openContact()">Contact Me</button>
+      <button class="btn-ghost" onclick="openEssay()">Read My Essays ↗</button>
+    </div>
+  </div>
+
+  <div class="scroll-line fr-4">
+    <span>Scroll</span>
+    <i></i>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     ABOUT + WRITING
+══════════════════════════════════ -->
+<section id="page-about">
+  <div class="about-inner">
+
+    <div class="about-text">
+      <div class="section-eyebrow">About</div>
+      <h2 class="about-heading">
+        Anaitullah<br/><em>Bhat.</em>
+      </h2>
+      <div class="about-body">
+        <p>From Kashmir. Interested in ideas at the edges — where technology meets philosophy, where design meets meaning, where a question is more useful than its answer.</p>
+        <p>I build things for the web and write essays when building isn't enough. Both come from the same place: a need to make sense of things carefully.</p>
+        <p>I go by Anait.</p>
+      </div>
+    </div>
+
+    <div class="writing-card">
+      <span class="essay-chip">Latest Essay</span>
+      <h3 class="essay-card-title">The Anatomy of<br/>Unwanted Things</h3>
+      <p class="essay-card-excerpt">
+        On what it costs to want something completely — and who you become
+        on the other side of not getting it. A philosophical essay about desire,
+        disappointment, and the quiet work of continuing anyway.
+      </p>
+      <button class="lg essay-read-btn" onclick="openEssay()">Read Essay →</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     FOOTER
+══════════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-name">Anaitullah Bhat</div>
+      <div class="footer-status">Curious by nature · From Kashmir</div>
+    </div>
+    <div class="footer-links">
+      <a class="footer-link" href="https://wa.me/918491944492" target="_blank" rel="noopener">WhatsApp</a>
+      <a class="footer-link" href="mailto:ref.anait.edu@gmail.com">Email</a>
+      <a class="footer-link" href="https://www.linkedin.com/in/anaitullahbhat" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="footer-link" href="https://www.instagram.com/4n4i7/" target="_blank" rel="noopener">Instagram</a>
+      <a class="footer-link" href="https://www.facebook.com/4na1t" target="_blank" rel="noopener">Facebook</a>
+    </div>
+    <div class="footer-copy">© Anaitullah Bhat — All rights reserved</div>
+  </div>
+</footer>
+
+<!-- ══════════════════════════════════
+     CONTACT OVERLAY
+══════════════════════════════════ -->
+<div id="contact-overlay" role="dialog" aria-modal="true" aria-label="Contact">
+  <div class="contact-panel">
+    <button class="contact-close" onclick="closeContact()" aria-label="Close">✕</button>
+
+    <h2 class="contact-heading">Say<br/><em>hello.</em></h2>
+    <p class="contact-sub">
+      I'm genuinely happy to hear from people — whether it's about something
+      I've written, an idea you want to think through, or just a good conversation.
+      Pick whichever feels right.
+    </p>
+
+    <div class="contact-links-list">
+      <a class="contact-row" href="mailto:ref.anait.edu@gmail.com">
+        <div class="contact-icon">✉</div>
+        <div class="contact-row-text">
+          <span class="contact-row-label">Email</span>
+          <span class="contact-row-val">ref.anait.edu@gmail.com</span>
+        </div>
+        <span class="contact-arr">→</span>
+      </a>
+      <a class="contact-row" href="https://wa.me/918491944492" target="_blank" rel="noopener">
+        <div class="contact-icon">📱</div>
+        <div class="contact-row-text">
+          <span class="contact-row-label">WhatsApp</span>
+          <span class="contact-row-val">+91 84919 44492</span>
+        </div>
+        <span class="contact-arr">→</span>
+      </a>
+
+      <div class="contact-divider"></div>
+
+      <a class="contact-row" href="https://www.linkedin.com/in/anaitullahbhat" target="_blank" rel="noopener">
+        <div class="contact-icon">💼</div>
+        <div class="contact-row-text">
+          <span class="contact-row-label">LinkedIn</span>
+          <span class="contact-row-val">anaitullahbhat</span>
+        </div>
+        <span class="contact-arr">→</span>
+      </a>
+      <a class="contact-row" href="https://www.instagram.com/4n4i7/" target="_blank" rel="noopener">
+        <div class="contact-icon">📷</div>
+        <div class="contact-row-text">
+          <span class="contact-row-label">Instagram</span>
+          <span class="contact-row-val">@4n4i7</span>
+        </div>
+        <span class="contact-arr">→</span>
+      </a>
+      <a class="contact-row" href="https://www.facebook.com/4na1t" target="_blank" rel="noopener">
+        <div class="contact-icon">🌐</div>
+        <div class="contact-row-text">
+          <span class="contact-row-label">Facebook</span>
+          <span class="contact-row-val">4na1t</span>
+        </div>
+        <span class="contact-arr">→</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     ESSAY OVERLAY — full reader
+══════════════════════════════════ -->
+<div id="essay-overlay" role="dialog" aria-modal="true" aria-label="Essay Reader">
+  <div class="essay-topbar">
+    <span class="essay-topbar-brand">Anaitullah Bhat — Essays</span>
+    <button class="essay-close" onclick="closeEssay()">← Back</button>
+  </div>
+
+  <article class="essay-page">
+    <div class="essay-kicker">Essay · On Loss &amp; Transformation</div>
+    <h1 class="essay-title-big">The Anatomy of Unwanted Things</h1>
+    <p class="essay-subtitle">An Essay on the Geography of Unrealized Dreams</p>
+    <div class="essay-rule"></div>
+
+    <div class="essay-epigraph">
+      "There will be a time in your life when you'll want something with all your heart
+      and then not get it. When that happens, something inside of you will die,
+      and you'll never be the same person again."
+    </div>
+
+    <div class="essay-prose">
+
+      <p class="dc">There is a particular innocence that belongs only to the wanting. Not the having, not the keeping, but the raw, unguarded act of desire itself — the moment before the world has taught you that wanting is dangerous. You stand at the edge of yourself, arms outstretched, and you believe, with a certainty that borders on the religious, that the universe will meet you there. You have not yet learned that the universe is not a church. It does not answer prayers. It does not keep score of your sincerity, your sleepless nights, your blood-soaked efforts. It simply moves, indifferent, and you are left holding the weight of a future that will never arrive.</p>
+
+      <p>This is the anatomy of unwanted things: not the loss of a person, though that too carries its own grave, but the loss of a self that once believed in the arithmetic of effort. The belief that if you wanted something completely, if you shaped your days around it, if you bled for it in the quiet hours when no one was watching, then the world would recognize the language of your devotion and respond in kind. You believed in a covenant. You believed that hope, multiplied by love, multiplied by sacrifice, would equal arrival. You were wrong. And the arithmetic that fails is not merely a miscalculation — it is a demolition.</p>
+
+      <div class="essay-dots">· · ·</div>
+      <div class="essay-section-head">The Innocence of Complete Wanting</div>
+
+      <p>To want something with all your heart is to stand naked in a storm and believe the rain will not touch you. It is a kind of madness, but a beautiful one — a madness that constructs cathedrals inside the chest, that fills the lungs with architecture, that makes the blood sing with purpose. In this state, you are not merely living; you are consecrating. Every moment becomes an offering. You build altars in your mind, and you lay upon them everything you have: your time, your sleep, your peace, your old allegiances to lesser things. You are, in that suspended time, the purest version of yourself you will ever be.</p>
+
+      <p>This is the innocence that precedes the wound. The innocence that does not know that wanting completely is a form of exposure, that to open your chest so wide is to invite the blade. You do not yet understand that the world does not negotiate with desire. The world does not say, <em>I see your wanting, and I will honor it because of its purity.</em> The world says nothing. The world is a winter road that continues into the dark, and you are walking it with bare feet, leaving blood in the snow, and the road does not end where you need it to end. It simply ends. Or worse, it continues, but you are no longer allowed to walk it.</p>
+
+      <div class="essay-dots">· · ·</div>
+      <div class="essay-section-head">The Slow Realization</div>
+
+      <p>There is no single moment when the dream dies. Death, in these matters, is not an event but a season. It arrives like a long winter, first frosting the edges of things you did not think could freeze, then settling into the soil, then hardening the rivers that once carried you forward. You notice it in small betrayals: the email that does not come, the silence where there should have been sound, the door that remains closed even as your knuckles split against it. You become a theologian of your own suffering, interpreting every setback as a prerequisite to glory. This is the last innocence — the belief that suffering is meaningful, that it is a currency you can spend on the future you want.</p>
+
+      <p>But the realization comes, slow and pitiless as rot. You begin to understand that your suffering is not currency. It is not being banked. It is not being counted. It is simply being absorbed into the earth, into the anonymous dark, without echo or consequence. The dream is slipping away, and you are watching it go, and your hands are still outstretched, and you understand, finally, that you cannot hold water with your fingers no matter how tightly you press them together. You have given everything, and everything was not enough. Not because you failed, not because you were weak, but because the mathematics of the universe does not include your equation.</p>
+
+      <div class="essay-blockquote">
+        "The grief of watching a dream slip away despite giving everything is not the grief of a transaction gone wrong. It is the grief of a sacrament refused. You have offered your blood, and the altar has not responded. The silence is not a test. It is the answer."
+      </div>
+
+      <div class="essay-dots">· · ·</div>
+      <div class="essay-section-head">The Symbolic Death</div>
+
+      <p>When the dream dies, something inside you dies with it. This is not metaphor. This is the precise, cellular truth of transformation. You feel it as a hollowing, as if someone has reached into your chest and removed an organ you did not know you had, leaving behind a cavity that fills not with air but with a new, heavier substance. It is the death of certainty — that once-cherished conviction that the world is ordered, that effort yields result, that love is a force capable of moving objects. You will carry the shards for the rest of your life. They will surface unexpectedly, in moments of joy, in moments of new wanting, and you will feel them press against your interior walls, and you will remember: <em>I have been broken here before.</em></p>
+
+      <p>And there is the death of the old self — that person who walked the road with bare feet and did not feel the cold, who bled and did not count the loss, who wanted with a completeness that now seems, in retrospect, like a kind of insanity. You cannot go back to that person. You cannot resurrect their optimism, their certainty, their unguarded heart. They are ash. They are the remains of a fire that burned too hot and consumed its own fuel. You will pass their grave every day, and sometimes you will stop and kneel, and sometimes you will simply walk past, not remembering until later that you have passed a cemetery where a version of yourself is buried without a stone.</p>
+
+      <div class="essay-dots">· · ·</div>
+      <div class="essay-section-head">The Transformation</div>
+
+      <p>But here is the paradox that the old self could not have understood: the death creates a new life. Not a better one. Not a healed one. But a different one. The person who emerges from the fire is not the person who entered it. They are harder, yes, but also more porous. They have been taught the language of absence, and they speak it now with a fluency that isolates them from those who have not yet learned. They are scarred, but the scars are not merely wounds; they are maps. You are no longer the person who believed in the covenant. You are the person who survived its breaking.</p>
+
+      <p>You know that the heart can break and still beat. You know that you can wake up day after day and carry the weight of an unrealized future and still walk, still eat, still speak, still love — though the love will be different now, guarded, aware of its own fragility. You are a haunted house. You are an abandoned road that still leads somewhere, though you no longer know where, and you travel it with a limp that will never heal because it is not a wound of the body but a wound of the architecture.</p>
+
+      <div class="essay-dots">· · ·</div>
+      <div class="essay-section-head">The Burying of Selves</div>
+
+      <p>Perhaps this is what growing up truly is: not the acquisition of wisdom, not the accumulation of years, but the process of burying versions of ourselves. We are graveyards. We are cities built on the ruins of cities that were built on the ruins of cities before them. Each loss is a layer, and we walk on top of the layers, and the ground beneath our feet is not soil but the compressed remains of who we once were, who we wanted to be, what we believed we deserved.</p>
+
+      <p>We walk. We bury. We become the graves we tend. And in the tending, we find a strange, bitter permanence — not the permanence of arrival, but the permanence of having been broken and continuing anyway. The permanence of scar tissue. The permanence of winter that does not end but becomes, eventually, simply the weather we know how to survive.</p>
+
+      <div class="essay-final">
+        "You will never be the same person again.<br/>
+        That is the wound.<br/>
+        That is also, somehow, the remaining."
+      </div>
+    </div>
+  </article>
+</div>
+
+<!-- ══ SCRIPTS ══ -->
+<script>
+/* ── CONTACT OVERLAY ── */
+function openContact(){
+  document.getElementById('contact-overlay').classList.add('open');
+  document.body.classList.add('locked');
+}
+function closeContact(){
+  document.getElementById('contact-overlay').classList.remove('open');
+  document.body.classList.remove('locked');
+}
+document.getElementById('contact-overlay').addEventListener('click',function(e){
+  if(e.target===this) closeContact();
+});
+
+/* ── ESSAY OVERLAY ── */
+function openEssay(){
+  var el=document.getElementById('essay-overlay');
+  el.classList.add('open');
+  el.scrollTop=0;
+  document.body.classList.add('locked');
+}
+function closeEssay(){
+  document.getElementById('essay-overlay').classList.remove('open');
+  document.body.classList.remove('locked');
+}
+
+/* ── KEYBOARD ── */
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){
+    closeContact();
+    closeEssay();
+  }
+});
+
+/* ── NAV ACTIVE ON SCROLL ── */
+var hero=document.getElementById('page-hero');
+var about=document.getElementById('page-about');
+window.addEventListener('scroll',function(){
+  var links=document.querySelectorAll('nav ul a');
+  links.forEach(function(l){l.classList.remove('on');});
+  if(window.scrollY < about.offsetTop - 100){
+    document.querySelector('nav ul a[href="#page-hero"]').classList.add('on');
+  } else {
+    document.querySelector('nav ul a[href="#page-about"]').classList.add('on');
+  }
+},{passive:true});
+</script>
+</body>
+</html>
